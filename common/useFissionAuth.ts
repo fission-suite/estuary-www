@@ -10,6 +10,9 @@ import Cookies from 'js-cookie';
 import { Wallet } from 'webnative-filecoin';
 
 Webnative.setup.debug({ enabled: true })
+WebnativeFilecoin.setup.server({
+  url: 'https://estuarycosigner.runfission.com//api/v1/filecoin',
+});
 
 export function useFissionAuth({ host, protocol }) {
   const [state, setState] = useState<Webnative.State>(null)
@@ -185,7 +188,7 @@ export function useFissionAuth({ host, protocol }) {
   const getWallet = async (savedAddress) => {
     if (fs) {
       console.log('saved address', savedAddress)
-      wallet = await WebnativeFilecoin.getWallet(fs, Webnative);
+      wallet = await WebnativeFilecoin.getWallet(fs, Webnative, { keyname: 'estuary-fil-cosigner' });
       const address = wallet.getAddress();
 
       console.log('address from cosigner', address)
